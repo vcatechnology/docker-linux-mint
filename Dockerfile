@@ -8,9 +8,9 @@ RUN apt-get update && \
   apt-get clean
 
 # Generate locales
-RUN cat /etc/locale.gen | expand | sed 's/^# .*$//g' | sed 's/^#$//g' | egrep -v '^$' | sed 's/^#//g' > /tmp/locale.gen \
-  && mv -f /tmp/locale.gen /etc/locale.gen \
-  && locale-gen
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_GB -c -f UTF-8 -A /usr/share/locale/locale.alias en_GB.UTF-8 \
+    && apt-get remove -y --purge locales
 ENV LANG=en_GB.utf8
 
 # Create install script
