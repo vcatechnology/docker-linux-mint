@@ -34,6 +34,7 @@ RUN touch                         /usr/local/bin/vca-install-package && \
   chmod +x                        /usr/local/bin/vca-install-package && \
   echo '#! /bin/sh'            >> /usr/local/bin/vca-install-package && \
   echo 'set -e'                >> /usr/local/bin/vca-install-package && \
+  echo 'apt-get update'        >> /usr/local/bin/vca-install-package && \
   echo 'apt-get -y install $@' >> /usr/local/bin/vca-install-package && \
   echo 'apt-get -y clean'      >> /usr/local/bin/vca-install-package
 
@@ -43,4 +44,5 @@ RUN touch                                /usr/local/bin/vca-uninstall-package &&
   echo '#! /bin/sh'                   >> /usr/local/bin/vca-uninstall-package && \
   echo 'set -e'                       >> /usr/local/bin/vca-uninstall-package && \
   echo 'apt-get remove -y --purge $@' >> /usr/local/bin/vca-uninstall-package && \
-  echo 'apt-get -y autoremove'        >> /usr/local/bin/vca-uninstall-package
+  echo 'apt-get -y autoremove'        >> /usr/local/bin/vca-uninstall-package && \
+  echo 'apt-get -y clean'             >> /usr/local/bin/vca-uninstall-package
