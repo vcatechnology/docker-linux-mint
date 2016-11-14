@@ -18,8 +18,9 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.schema-version="1.0"
 
 # Update all packages
-RUN apt-get update && \
-  apt-get -y upgrade && \
+RUN echo console-setup console-setup/charmap select UTF-8 | debconf-set-selections && \
+  apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" upgrade && \
   apt-get -y autoremove && \
   apt-get clean
 
