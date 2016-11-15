@@ -24,3 +24,6 @@ RUN REPO_LIST=/etc/apt/sources.list.d/mint.list \
  && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com ${LINUX_MINT_KEY} \
  && vca-install-package --allow-unauthenticated linuxmint-keyring \
  && unset LINUX_MINT_KEY REPO_LIST
+
+# Install the necessary packages to convert to Linux Mint
+RUN vca-install-package base-files
