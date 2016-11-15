@@ -1,4 +1,4 @@
-FROM vcatechnology/base-linux-mint
+FROM ubuntu
 MAINTAINER VCA Technology <developers@vcatechnology.com>
 
 # Build-time metadata as defined at http://label-schema.org
@@ -16,6 +16,14 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.version=$VERSION \
       org.label-schema.license=MIT \
       org.label-schema.schema-version="1.0"
+
+COPY official-package-repositories.list /etc/apt/sources.list.d/offical-package-repositories.list
+RUN apt-get update
+RUN apt-get --yes --allow-unauthenticated install linuxmint-keyring
+RUN apt-get --yes --allow-unauthenticated install linux-kernel-generic
+RUN apt-get --yes --allow-unauthenticated install mdm
+RUN apt-get --yes -f --allow-unauthenticated install mint-meta-core deborphan
+RUN apt-get clean && apt-get autoclean
 
 # Make sure APT operations are non-interactive
 ENV DEBIAN_FRONTEND noninteractive
