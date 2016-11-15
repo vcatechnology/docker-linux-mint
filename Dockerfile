@@ -59,8 +59,8 @@ RUN vca-install-package tzdata \
  && dpkg-reconfigure tzdata
 
 # Update all packages
-RUN apt-get -q update \
+RUN apt-get -q --allow-unauthenticated update \
  && echo console-setup console-setup/charmap select UTF-8 | debconf-set-selections \
- && apt-get -qy -o Dpkg::Options::="--force-confnew" dist-upgrade \
+ && apt-get --allow-unauthenticated -qy -o Dpkg::Options::="--force-confnew" dist-upgrade \
  && apt-get -qy autoremove \
  && apt-get -q clean
