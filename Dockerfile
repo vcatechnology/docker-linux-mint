@@ -1,4 +1,4 @@
-FROM vcatechnology/base-linux-mint
+FROM ubuntu
 MAINTAINER VCA Technology <developers@vcatechnology.com>
 
 # Build-time metadata as defined at http://label-schema.org
@@ -16,6 +16,14 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.version=$VERSION \
       org.label-schema.license=MIT \
       org.label-schema.schema-version="1.0"
+
+# Convert to linux-mint
+COPY official-package-repositories.list /etc/apt/sources.list.d/offical-package-repositories.list
+RUN apt-get update \
+ && apt-get --yes --allow-unauthenticated install linuxmint-keyring \
+ && apt-get update \
+ && apt-get --yes --allow-unauthenticated install base-files \
+ && apt-get -q autoremove && apt-get -q clean && apt-get -q autoclean
 
 # Make sure APT operations are non-interactive
 ENV DEBIAN_FRONTEND noninteractive
@@ -51,8 +59,10 @@ RUN vca-install-package tzdata \
  && dpkg-reconfigure tzdata
 
 # Update all packages
-RUN apt-get -q update \
+# We need to use APT::Immediate-Cofigure=false in order to defer configuration of packages
+# due to circular dependencies
+RUN apt-get -q --allow-unauthenticated update \
  && echo console-setup console-setup/charmap select UTF-8 | debconf-set-selections \
- && apt-get -qy -o Dpkg::Options::="--force-confnew" dist-upgrade \
+ && apt-get -f --allow-unauthenticated -qy -o Dpkg::Options::="--force-confnew" -o APT::Immediate-Configure=false dist-upgrade \
  && apt-get -qy autoremove \
  && apt-get -q clean
