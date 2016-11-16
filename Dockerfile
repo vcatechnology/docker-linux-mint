@@ -27,3 +27,10 @@ RUN REPO_LIST=/etc/apt/sources.list.d/mint.list \
 
 # Install the necessary packages to convert to Linux Mint
 RUN vca-install-package base-files
+
+# Update all packages
+RUN apt-get -q update \
+ && echo console-setup console-setup/charmap select UTF-8 | debconf-set-selections \
+ && apt-get -fqy -o Dpkg::Options::="--force-confnew" -o APT::Immediate-Configure=false dist-upgrade \
+ && apt-get -qy autoremove \
+ && apt-get -q clean
