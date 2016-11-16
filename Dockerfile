@@ -1,4 +1,4 @@
-FROM vcatechnology/ubuntu
+FROM vcatechnology/ubuntu:16.04
 MAINTAINER VCA Technology <developers@vcatechnology.com>
 
 # Build-time metadata as defined at http://label-schema.org
