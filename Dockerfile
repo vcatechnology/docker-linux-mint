@@ -27,7 +27,7 @@ RUN REPO_LIST=/etc/apt/sources.list.d/mint.list \
  && unset LINUX_MINT_KEY REPO_LIST
 
 # Install the necessary packages to convert to Linux Mint
-RUN vca-install-package base-files
+ADD lsb-release /etc/lsb-release
 
 # Update all packages
 RUN apt-get -q update \
