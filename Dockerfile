@@ -19,7 +19,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 # Set up the Linux Mint repositories
 RUN REPO_LIST=/etc/apt/sources.list.d/mint.list \
- && echo "deb http://packages.linuxmint.com/ serena main upstream import backport " > ${REPO_LIST} \
+ && echo "deb http://packages.linuxmint.com/ sarah main upstream import backport " > ${REPO_LIST} \
  && LINUX_MINT_KEY=$(apt update 2>&1 | grep -o '[0-9A-Z]\{16\}$' | xargs) \
  && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com ${LINUX_MINT_KEY} \
  && vca-install-package --allow-unauthenticated linuxmint-keyring \
